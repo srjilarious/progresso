@@ -18,7 +18,7 @@ public:
     void tick(uint32_t amount=1);
 
     float getPercentDone() const;
-    void draw();
+    void draw(bool startOfLine=true);
 };
 
 }

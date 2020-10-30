@@ -17,7 +17,8 @@ progresso::progresso(uint32_t curr, uint32_t max)
 void 
 progresso::tick(uint32_t amount)
 {
-
+    mCurrVal = std::max(static_cast<uint16_t>(0), 
+            std::min(static_cast<uint16_t>(mCurrVal+amount), static_cast<uint16_t>(mMaxVal)));
 }
 
 
@@ -30,7 +31,7 @@ progresso::getPercentDone() const
 }
 
 void 
-progresso::draw()
+progresso::draw(bool startOfLine)
 {
     constexpr char FillChar = '#';
     constexpr char EmptyChar = '.';
@@ -42,11 +43,13 @@ progresso::draw()
             static_cast<uint16_t>(Width*getPercentDone()), 
             Width));
     auto remainAmount = Width-fillAmount;
-
+    if(startOfLine) std::cout << '\r';
     std::cout << LeftCap 
             << std::string(fillAmount, FillChar) 
             << std::string(remainAmount, EmptyChar)
             << RightCap;
+    if(startOfLine) std::cout << '\r';
+    std::flush(std::cout);
 }
 
 }
