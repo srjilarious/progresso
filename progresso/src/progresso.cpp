@@ -8,8 +8,8 @@
 namespace progresso
 {
 
-progresso::progresso(uint32_t curr, uint32_t max)
-    : mCurrVal(curr), mMaxVal(max)
+progresso::progresso(uint32_t curr, uint32_t max, uint32_t width, style st)
+    : mCurrVal(curr), mMaxVal(max), mWidth(width), mStyle(st)
 {
 
 }
@@ -33,21 +33,15 @@ progresso::getPercentDone() const
 void 
 progresso::draw(bool startOfLine)
 {
-    constexpr char FillChar = '#';
-    constexpr char EmptyChar = '.';
-    constexpr char LeftCap = '[';
-    constexpr char RightCap = ']';
-    constexpr uint16_t Width = 80;
-
-    auto fillAmount = std::max(static_cast<uint16_t>(0), std::min(
-            static_cast<uint16_t>(Width*getPercentDone()), 
-            Width));
-    auto remainAmount = Width-fillAmount;
+    auto fillAmount = std::max(static_cast<uint32_t>(0), std::min(
+            static_cast<uint32_t>(mWidth*getPercentDone()), 
+            mWidth));
+    auto remainAmount = mWidth-fillAmount;
     if(startOfLine) std::cout << '\r';
-    std::cout << LeftCap 
-            << std::string(fillAmount, FillChar) 
-            << std::string(remainAmount, EmptyChar)
-            << RightCap;
+    std::cout << mStyle.leftCap 
+            << std::string(fillAmount, mStyle.fillChar) 
+            << std::string(remainAmount, mStyle.emptyChar)
+            << mStyle.rightCap;
     if(startOfLine) std::cout << '\r';
     std::flush(std::cout);
 }

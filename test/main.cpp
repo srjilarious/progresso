@@ -10,7 +10,9 @@ int main()
 {
     printf("Hello World.\n");
 
-    progresso::progresso p1 = {0, 100};
+    progresso::progresso p1 = {0, 100, 30, {
+        '(', ')', '*', '-'
+    }};
 
     for(int i = 0; i < 100; i++) {
         p1.tick(1);
