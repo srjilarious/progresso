@@ -18,9 +18,10 @@ private:
     uint32_t mCurrVal = 0, mMaxVal = 100;
     uint32_t mWidth = 40;
     style mStyle;
+    bool mShowPercentage = true;
 
 public:
-    progresso(uint32_t curr, uint32_t max, uint32_t width, style st);
+    progresso(uint32_t curr, uint32_t max, uint32_t width, bool percentage, style st);
     void setTotal(uint32_t max) { mMaxVal = max; }
     void setValue(uint32_t value) { mCurrVal = value; }
     uint32_t getValue() const { return mCurrVal; }
