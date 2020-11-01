@@ -27,6 +27,7 @@ public:
     void tick(uint32_t amount=1);
 
     float getPercentDone() const;
+    void erase();
     void draw(bool startOfLine=true);
 };
 

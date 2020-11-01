@@ -20,6 +20,8 @@ int main()
         p1.draw();
     }
 
-    std::cout << std::endl;
+    p1.erase();
+    
+    std::cout << "Finished." << std::endl;
     return 0;
 }

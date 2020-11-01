@@ -31,6 +31,13 @@ progresso::getPercentDone() const
 }
 
 void 
+progresso::erase()
+{
+    // + 2 for the start and end caps.
+    std::cout << '\r' << std::string(mWidth + 2, ' ') << '\r' ;
+}
+
+void 
 progresso::draw(bool startOfLine)
 {
     auto fillAmount = std::max(static_cast<uint32_t>(0), std::min(
