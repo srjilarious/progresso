@@ -61,10 +61,16 @@ progresso::draw(bool startOfLine)
             mWidth));
     auto remainAmount = mWidth-fillAmount;
     if(startOfLine) std::cout << '\r';
-    std::cout << mStyle.leftCap 
-            << std::string(fillAmount, mStyle.fillChar) 
-            << std::string(remainAmount, mStyle.emptyChar)
-            << mStyle.rightCap;
+
+    if(mStyle.colorize) std::cout << mStyle.capColor;
+    std::cout << mStyle.leftCap;
+    if(mStyle.colorize) std::cout << mStyle.fillColor;
+    std::cout << std::string(fillAmount, mStyle.fillChar);
+    if(mStyle.colorize) std::cout << mStyle.emptyColor;
+    std::cout << std::string(remainAmount, mStyle.emptyChar);
+    if(mStyle.colorize) std::cout << mStyle.capColor;
+    std::cout << mStyle.rightCap;
+    if(mStyle.colorize) std::cout << ResetColor;
     
     if(mShowPercentage) {
         std::cout << " " << std::setprecision(4) << getPercentDone() 

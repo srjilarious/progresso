@@ -11,7 +11,7 @@ int main()
     printf("Hello World.\n");
 
     progresso::progresso p1 = {0, 100, 30, true, {
-        '(', ')', '*', '-'
+        '(', ')', '#', '-'
     }};
 
     for(int i = 0; i < 100; i++) {
