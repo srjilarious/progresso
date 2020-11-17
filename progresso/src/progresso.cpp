@@ -48,7 +48,8 @@ progresso::erase()
     // + 2 for the start and end caps.
     uint32_t length = mWidth + 2;
     if(mShowPercentage) {
-        length += 1 + 3 + 3 + 3 + 2;
+        // space + 7 chars for percentage + ' / ' + '100' + ' %'
+        length += 1 + 7 + 3 + 3 + 2;
     }
     std::cout << '\r' << std::string(length, ' ') << '\r' ;
 }
@@ -90,13 +91,17 @@ progresso::draw(bool startOfLine)
     if(mStyle.colorize) std::cout << mStyle.capColor;
     std::cout << mStyle.leftCap;
     if(mStyle.colorize) std::cout << mStyle.fillColor;
-    std::cout << std::string(fullAmountDone(), mStyle.doneChar);
+    for(int ii = 0; ii < fullAmountDone(); ii++) {
+        std::cout << mStyle.doneChar;
+    }
     std::cout << mStyle.fillChars[fractionalCharIndex()];
 
     auto emptyAmount = emptyAmountLeft()-1;
     if(emptyAmount > 0) {
         if(mStyle.colorize) std::cout << mStyle.emptyColor;
-        std::cout << std::string(emptyAmount, mStyle.emptyChar);
+        for(int ii = 0; ii < emptyAmount; ii++) {
+            std::cout << mStyle.emptyChar;
+        }
     }
 
     if(mStyle.colorize) std::cout << mStyle.capColor;
@@ -104,8 +109,13 @@ progresso::draw(bool startOfLine)
     if(mStyle.colorize) std::cout << ResetColor;
     
     if(mShowPercentage) {
-        std::cout << " " << std::setprecision(4) << getPercentDone() 
-                  << " / 100 %";
+        std::cout << " " 
+                << std::setprecision(2)
+                << std::fixed 
+                << std::setw(5) 
+                << std::setfill(' ') 
+                << getPercentDone() 
+                << " / 100 %";
     }
 
     if(startOfLine) std::cout << '\r';

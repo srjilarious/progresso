@@ -27,9 +27,9 @@ constexpr const char BoldWhiteColor[]  = "\033[97m";
 struct style {
     char leftCap    = '[';
     char rightCap   = ']';
-    char doneChar   = '=';
-    std::vector<char> fillChars = {'='};
-    char emptyChar  = '.';
+    std::string doneChar   = "=";
+    std::vector<std::string> fillChars = {"="};
+    std::string emptyChar  = ".";
 
     bool colorize   = true;
     const char* capColor   = BlueColor;
