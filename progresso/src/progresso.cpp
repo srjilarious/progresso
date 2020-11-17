@@ -39,7 +39,7 @@ progresso::getPercentDone() const
 {
     if(mMaxVal == 0) return 0.0f;
 
-    return 100.0f*static_cast<float>(mCurrVal)/static_cast<float>(mMaxVal);
+    return 100.0f*fractionalPortionDone();
 }
 
 void 
@@ -53,21 +53,52 @@ progresso::erase()
     std::cout << '\r' << std::string(length, ' ') << '\r' ;
 }
 
+int 
+progresso::fullAmountDone() const
+{
+    return (mCurrVal*mWidth)/mMaxVal;
+}
+
+float 
+progresso::fractionalPortionDone() const
+{
+    return static_cast<float>(mCurrVal)/static_cast<float>(mMaxVal);
+}
+
+int 
+progresso::fractionalCharIndex() const
+{
+    auto fractionalVal = fractionalPortionDone()*mWidth;
+    return (fractionalVal - fullAmountDone())*mStyle.fillChars.size();
+}
+
+int 
+progresso::emptyAmountLeft() const
+{
+    return std::max(0, static_cast<int>(mWidth) - fullAmountDone());
+}
+
 void 
 progresso::draw(bool startOfLine)
 {
-    auto fillAmount = std::max(static_cast<uint32_t>(0), std::min(
-            static_cast<uint32_t>(mWidth*getPercentDone()/100.0f), 
-            mWidth));
-    auto remainAmount = mWidth-fillAmount;
+    // auto fillAmount = std::max(static_cast<uint32_t>(0), std::min(
+    //         static_cast<uint32_t>(mWidth*getPercentDone()/100.0f), 
+    //         mWidth));
+    //auto remainAmount = mWidth-fillAmount;
     if(startOfLine) std::cout << '\r';
 
     if(mStyle.colorize) std::cout << mStyle.capColor;
     std::cout << mStyle.leftCap;
     if(mStyle.colorize) std::cout << mStyle.fillColor;
-    std::cout << std::string(fillAmount, mStyle.fillChar);
-    if(mStyle.colorize) std::cout << mStyle.emptyColor;
-    std::cout << std::string(remainAmount, mStyle.emptyChar);
+    std::cout << std::string(fullAmountDone(), mStyle.doneChar);
+    std::cout << mStyle.fillChars[fractionalCharIndex()];
+
+    auto emptyAmount = emptyAmountLeft()-1;
+    if(emptyAmount > 0) {
+        if(mStyle.colorize) std::cout << mStyle.emptyColor;
+        std::cout << std::string(emptyAmount, mStyle.emptyChar);
+    }
+
     if(mStyle.colorize) std::cout << mStyle.capColor;
     std::cout << mStyle.rightCap;
     if(mStyle.colorize) std::cout << ResetColor;

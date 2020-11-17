@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 
 namespace progresso
 {
@@ -26,7 +27,8 @@ constexpr const char BoldWhiteColor[]  = "\033[97m";
 struct style {
     char leftCap    = '[';
     char rightCap   = ']';
-    char fillChar   = '=';
+    char doneChar   = '=';
+    std::vector<char> fillChars = {'='};
     char emptyChar  = '.';
 
     bool colorize   = true;
@@ -42,11 +44,20 @@ private:
     style mStyle;
     bool mShowPercentage = true;
 
+    int fullAmountDone() const;
+    float fractionalPortionDone() const;
+    int fractionalCharIndex() const;
+    int emptyAmountLeft() const;
+
 public:
     progresso(uint32_t curr, uint32_t max, uint32_t width, bool percentage, style st);
+    
+    uint32_t getTotal() const { return mMaxVal; }
     void setTotal(uint32_t max) { mMaxVal = max; }
+
     void setValue(uint32_t value) { mCurrVal = value; }
     uint32_t getValue() const { return mCurrVal; }
+
     void tick(uint32_t amount=1);
 
     float getPercentDone() const;

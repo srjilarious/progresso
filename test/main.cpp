@@ -10,13 +10,13 @@ int main()
 {
     printf("Hello World.\n");
 
-    progresso::progresso p1 = {0, 100, 30, true, {
-        '(', ')', '#', '-'
+    progresso::progresso p1 = {0, 160, 40, true, {
+        '(', ')', '#', {'_', '.', '-', '*'}, '-'
     }};
 
-    for(int i = 0; i < 100; i++) {
+    for(int i = 0; i < p1.getTotal(); i++) {
         p1.tick(1);
-        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
         p1.draw();
     }
 
