@@ -10,17 +10,16 @@ int main()
 {
     printf("Hello World.\n");
 
-    progresso::progresso p1 = {0, 160, 40, true, {
+    progresso::progresso p1 = {0, 160, 20, true, {
         '(', ')', "#", {"_", ".", "-", "*"}, "-"
     }};
 
     for(int i = 0; i < p1.getTotal(); i++) {
         p1.tick(1);
-        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        std::this_thread::sleep_for(std::chrono::milliseconds(30));
         p1.draw();
     }
 
-    p1.erase();
 
     std::cout << std::endl << std::endl << "unicode block:" << std::endl;
     progresso::progresso p2 = {0, 160, 40, true, {
@@ -35,8 +34,19 @@ int main()
         p2.draw();
     }
 
-    p2.erase();
-    
+    std::cout << std::endl;
+
+    progresso::progresso p3 = {0, 40, 40, true, {
+        '(', ')', "#", {}, "-"
+    }};
+
+    for(int i = 0; i < p3.getTotal(); i++) {
+        p3.tick(1);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        p3.draw();
+    }
+
+    std::cout << std::endl;
     std::cout << "Finished." << std::endl;
     return 0;
 }

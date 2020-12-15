@@ -94,7 +94,17 @@ progresso::draw(bool startOfLine)
     for(int ii = 0; ii < fullAmountDone(); ii++) {
         std::cout << mStyle.doneChar;
     }
-    std::cout << mStyle.fillChars[fractionalCharIndex()];
+
+    if(mCurrVal >= mMaxVal) {
+        std::cout << mStyle.doneChar;
+    }
+    else if(mStyle.fillChars.size() > 0) {
+        std::cout << mStyle.fillChars[fractionalCharIndex()];
+    }
+    else {
+        // If there are no fill chars, use the done char instead.
+        std::cout << mStyle.doneChar;
+    }
 
     auto emptyAmount = emptyAmountLeft()-1;
     if(emptyAmount > 0) {
@@ -108,6 +118,7 @@ progresso::draw(bool startOfLine)
     std::cout << mStyle.rightCap;
     if(mStyle.colorize) std::cout << ResetColor;
     
+    std::cout << " " << std::fixed << std::setw(4) << std::setfill(' ') << fractionalCharIndex();
     if(mShowPercentage) {
         std::cout << " " 
                 << std::setprecision(2)
@@ -118,7 +129,7 @@ progresso::draw(bool startOfLine)
                 << " / 100 %";
     }
 
-    if(startOfLine) std::cout << '\r';
+    //if(startOfLine) std::cout << '\r';
     std::flush(std::cout);
 }
 
