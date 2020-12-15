@@ -118,7 +118,6 @@ progresso::draw(bool startOfLine)
     std::cout << mStyle.rightCap;
     if(mStyle.colorize) std::cout << ResetColor;
     
-    std::cout << " " << std::fixed << std::setw(4) << std::setfill(' ') << fractionalCharIndex();
     if(mShowPercentage) {
         std::cout << " " 
                 << std::setprecision(2)
