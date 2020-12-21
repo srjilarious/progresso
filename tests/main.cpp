@@ -8,10 +8,9 @@
 
 int main()
 {
-    printf("Hello World.\n");
-
+    std::cout << std::endl << std::endl << "unicode block based progress bar.:" << std::endl;
     progresso::progresso p1 = {0, 160, 20, true, {
-        '(', ')', "#", {"_", ".", "-", "*"}, "-"
+        "(", ")", "#", {"_", ".", "-", "*"}, "-"
     }};
 
     for(int i = 0; i < p1.getTotal(); i++) {
@@ -21,9 +20,11 @@ int main()
     }
 
 
-    std::cout << std::endl << std::endl << "unicode block:" << std::endl;
+    std::cout << std::endl << std::endl << "unicode block based progress bar.:" << std::endl;
     progresso::progresso p2 = {0, 160, 40, true, {
-        '[', ']', u8"\u2589", 
+        u8"\u2595", // Right 1/8th block
+        u8"\u258f", // Left 1/8th block
+        u8"\u2589", // Full block
         { u8"\u258f", u8"\u258d", u8"\u258b", u8"\u2589"}, 
         u8" "
     }};
@@ -34,10 +35,10 @@ int main()
         p2.draw();
     }
 
-    std::cout << std::endl;
 
+    std::cout << std::endl << std::endl << "progress bar without intermediate characters:" << std::endl;
     progresso::progresso p3 = {0, 40, 40, true, {
-        '(', ')', "#", {}, "-"
+        "(", ")", "#", {}, "-"
     }};
 
     for(int i = 0; i < p3.getTotal(); i++) {

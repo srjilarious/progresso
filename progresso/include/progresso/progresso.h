@@ -25,8 +25,8 @@ constexpr const char BoldCyanColor[]   = "\033[96m";
 constexpr const char BoldWhiteColor[]  = "\033[97m";
 
 struct style {
-    char leftCap    = '[';
-    char rightCap   = ']';
+    std::string leftCap    = "[";
+    std::string rightCap   = "]";
     std::string doneChar   = "=";
     std::vector<std::string> fillChars = {"="};
     std::string emptyChar  = ".";
