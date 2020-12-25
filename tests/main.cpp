@@ -21,13 +21,7 @@ int main()
 
 
     std::cout << std::endl << std::endl << "unicode block based progress bar.:" << std::endl;
-    progresso::progresso p2 = {0, 160, 40, true, {
-        u8"\u2595", // Right 1/8th block
-        u8"\u258f", // Left 1/8th block
-        u8"\u2589", // Full block
-        { u8"\u258f", u8"\u258d", u8"\u258b", u8"\u2589"}, 
-        u8" "
-    }};
+    progresso::progresso p2 = {0, 160, 40, true, progresso::styles::BlockStyleFilledBackground};
 
     for(int i = 0; i < p2.getTotal(); i++) {
         p2.tick(1);

@@ -24,6 +24,8 @@ constexpr const char BoldMagentaColor[]= "\033[95m";
 constexpr const char BoldCyanColor[]   = "\033[96m";
 constexpr const char BoldWhiteColor[]  = "\033[97m";
 
+// TODO: Add background colors.
+
 struct style {
     std::string leftCap    = "[";
     std::string rightCap   = "]";
@@ -37,12 +39,49 @@ struct style {
     const char* emptyColor = GrayColor;
 };
 
+namespace styles
+{
+    const style BlockStyleNoBackground = {
+        u8"\u2595", // Right 1/8th block
+        u8"\u258f", // Left 1/8th block
+        u8"\u2589", // Full block
+        { u8"\u258f", u8"\u258d", u8"\u258b", u8"\u2589"}, 
+        u8" "};
+
+    const style BlockStyleFilledBackground = {
+        u8"\u2595", // Right 1/8th block
+        u8"\u258f", // Left 1/8th block
+        u8"\u2589", // Full block
+        { u8"\u258f", u8"\u258d", u8"\u258b", u8"\u2589"}, 
+        u8"\u2589", // Full block,
+        true,
+        BoldWhiteColor,
+        BoldGreenColor,
+        BoldRedColor};
+}
+
+enum class ValueDisplayStyle {
+    None,
+    Percentage,
+
+    // Prints the current and max value, but with the max value having the suffix after.
+    ValueMaxWithSuffix,
+
+    // Prints both the current and max values with the suffix afterwards.
+    ValueBothWithSuffix,
+};
+
 class progresso {
 private:
     uint32_t mCurrVal = 0, mMaxVal = 100;
     uint32_t mWidth = 40;
     style mStyle;
+
+    // TODO: Change to Value Display Style.
     bool mShowPercentage = true;
+
+    // TODO: Add suffix for value case (e.g. MB)
+    std::string mValueSuffix;
 
     int fullAmountDone() const;
     float fractionalPortionDone() const;
