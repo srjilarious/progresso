@@ -9,9 +9,9 @@
 int main()
 {
     std::cout << std::endl << std::endl << "Simple ASCII progress bar w/ intermediate characters:" << std::endl;
-    progresso::progresso p1 = {0, 160, 20, true, {
+    auto p1 = progresso::progresso(0, 160, 20, {
         "(", ")", "#", {"_", ".", "-", "*"}, "-"
-    }};
+    });
 
     for(int i = 0; i < p1.getTotal(); i++) {
         p1.tick(1);
@@ -21,7 +21,7 @@ int main()
 
 
     std::cout << std::endl << std::endl << "unicode block based progress bar:" << std::endl;
-    progresso::progresso p2 = {0, 160, 40, true, progresso::styles::BlockStyleFilledBackground};
+    auto p2 = progresso::progresso(0, 160, 40, progresso::styles::BlockStyleFilledBackground);
 
     for(int i = 0; i < p2.getTotal(); i++) {
         p2.tick(1);
@@ -31,9 +31,9 @@ int main()
 
 
     std::cout << std::endl << std::endl << "progress bar without intermediate characters:" << std::endl;
-    progresso::progresso p3 = {0, 40, 40, true, {
+    auto p3 = progresso::progresso(0, 40, 40, {
         "(", ")", "#", {}, "-"
-    }};
+    });
 
     for(int i = 0; i < p3.getTotal(); i++) {
         p3.tick(1);
@@ -45,7 +45,7 @@ int main()
 
 
     std::cout << std::endl << std::endl << "Another unicode block progress bar:" << std::endl;
-    progresso::progresso p4 = {0, 200, 40, true, {
+    auto p4 = progresso::progresso(0, 200, 40, {
         u8"\u2595", // Right 1/8th block
         u8"\u258f", // Left 1/8th block
         u8"\u2588", // Full block
@@ -59,7 +59,9 @@ int main()
         progresso::color::background::BlueColor,
 
         progresso::color::foreground::BlueColor,
-        progresso::color::background::BlueColor}};
+        progresso::color::background::BlueColor},
+        progresso::ValueDisplayStyle::ValueMaxWithSuffix,
+        "MB");
 
     for(int i = 0; i < p4.getTotal(); i++) {
         p4.tick(1);
@@ -71,7 +73,7 @@ int main()
 
 
     std::cout << std::endl << std::endl << "unicode block progress with dimmed intermediates:" << std::endl;
-    progresso::progresso p5 = {0, 100, 40, true, {
+    progresso::progresso p5 = {0, 100, 40, {
         u8"\u2595", // Right 1/8th block
         u8"\u258f", // Left 1/8th block
         u8"\u2588", // Full block
@@ -85,7 +87,9 @@ int main()
         progresso::color::background::BlueColor,
 
         progresso::color::foreground::BlueColor,
-        progresso::color::background::BlueColor}};
+        progresso::color::background::BlueColor},
+        progresso::ValueDisplayStyle::ValueBothWithSuffix,
+        "MB"};
 
     for(int i = 0; i < p5.getTotal(); i++) {
         p5.tick(1);

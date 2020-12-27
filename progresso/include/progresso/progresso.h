@@ -122,10 +122,8 @@ private:
     uint32_t mWidth = 40;
     style mStyle;
 
-    // TODO: Change to Value Display Style.
-    bool mShowPercentage = true;
+    ValueDisplayStyle mValueDisplay = ValueDisplayStyle::Percentage;
 
-    // TODO: Add suffix for value case (e.g. MB)
     std::string mValueSuffix;
 
     int fullAmountDone() const;
@@ -133,14 +131,25 @@ private:
     int fractionalCharIndex() const;
     int emptyAmountLeft() const;
 
+    std::string createSuffix() const;
+    std::string formatValStr(float val) const;
+    
+    std::string currValStr() const;
+    std::string maxValStr() const;
 public:
-    progresso(uint32_t curr, uint32_t max, uint32_t width, bool percentage, style st);
+    progresso(uint32_t curr, uint32_t max, uint32_t width, 
+              style st,
+              ValueDisplayStyle percentage = ValueDisplayStyle::Percentage, 
+              std::string valueSuffix = "");
     
     uint32_t getTotal() const { return mMaxVal; }
     void setTotal(uint32_t max) { mMaxVal = max; }
 
     void setValue(uint32_t value) { mCurrVal = value; }
     uint32_t getValue() const { return mCurrVal; }
+
+    std::string getValueSuffix() const { return mValueSuffix; }
+    void setValueSuffix(std::string value) { mValueSuffix = value; }
 
     void tick(uint32_t amount=1);
 

@@ -3,7 +3,7 @@
 #include <string>
 #include <algorithm>
 #include <iomanip>
-
+#include <sstream>
 
 #include <progresso/progresso.h>
 
@@ -13,15 +13,17 @@ namespace progresso
 progresso::progresso(
         uint32_t curr, 
         uint32_t max, 
-        uint32_t width, 
-        bool percentage,
-        style st
+        uint32_t width,
+        style st,
+        ValueDisplayStyle display, 
+        std::string valueSuffix
     )
     : mCurrVal(curr), 
       mMaxVal(max), 
       mWidth(width), 
-      mShowPercentage(percentage),
-      mStyle(st)
+      mStyle(st),
+      mValueDisplay(display),
+      mValueSuffix(valueSuffix)
 {
 
 }
@@ -47,11 +49,54 @@ progresso::erase()
 {
     // + 2 for the start and end caps.
     uint32_t length = mWidth + 2;
-    if(mShowPercentage) {
-        // space + 7 chars for percentage + ' / ' + '100' + ' %'
-        length += 1 + 7 + 3 + 3 + 2;
-    }
+    auto suffix = createSuffix();
+    length += suffix.size();
     std::cout << '\r' << std::string(length, ' ') << '\r' ;
+}
+
+std::string
+progresso::currValStr() const
+{
+    return formatValStr(mCurrVal);
+}
+
+std::string
+progresso::maxValStr() const
+{
+    return formatValStr(mMaxVal);
+}
+
+std::string 
+progresso::formatValStr(float val) const
+{
+    std::ostringstream valOut;
+    valOut << std::setprecision(2)
+            << std::fixed 
+            << std::setw(5) 
+            << std::setfill(' ') 
+            << val;
+    return valOut.str();
+}
+
+std::string 
+progresso::createSuffix() const
+{
+    switch(mValueDisplay) 
+    {
+        case ValueDisplayStyle::Percentage:
+            // space + 7 chars for percentage + ' / ' + '100' + ' %'
+            return std::string(" ") + formatValStr(getPercentDone()) + " / 100 %";
+
+        case ValueDisplayStyle::ValueMaxWithSuffix:
+            return std::string(" ") + currValStr() + " / " + maxValStr() + " " + mValueSuffix;
+
+        case ValueDisplayStyle::ValueBothWithSuffix:
+            return std::string(" ") + currValStr() + " " + mValueSuffix + " / " + maxValStr() + " " + mValueSuffix;
+
+        default:
+        case ValueDisplayStyle::None:
+            return "";
+    };
 }
 
 int 
@@ -118,15 +163,16 @@ progresso::draw(bool startOfLine)
     std::cout << mStyle.rightCap;
     if(mStyle.colorize) std::cout << color::ResetColor;
     
-    if(mShowPercentage) {
-        std::cout << " " 
-                << std::setprecision(2)
-                << std::fixed 
-                << std::setw(5) 
-                << std::setfill(' ') 
-                << getPercentDone() 
-                << " / 100 %";
-    }
+    std::cout << createSuffix();
+    // if(mShowPercentage) {
+    //     std::cout << " " 
+    //             << std::setprecision(2)
+    //             << std::fixed 
+    //             << std::setw(5) 
+    //             << std::setfill(' ') 
+    //             << getPercentDone() 
+    //             << " / 100 %";
+    // }
 
     //if(startOfLine) std::cout << '\r';
     std::flush(std::cout);
