@@ -1,9 +1,8 @@
 from conans import ConanFile, CMake
 
-
 class ProgressoConan(ConanFile):
     name = "progresso"
-    version = "0.1"
+    version = "0.2"
     license = "MIT"
     author = "Jeff DeWall"
     url = "https://gitlab.com/sr.jilarious/progresso"
@@ -19,11 +18,6 @@ class ProgressoConan(ConanFile):
         cmake = CMake(self)
         cmake.configure(source_folder="progresso")
         cmake.build()
-
-        # Explicit way:
-        # self.run('cmake %s/hello %s'
-        #          % (self.source_folder, cmake.command_line))
-        # self.run("cmake --build . %s" % cmake.build_config)
 
     def package(self):
         self.copy("*.h", dst="include/progresso", src="progresso/include/progresso")

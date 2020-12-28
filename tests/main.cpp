@@ -43,9 +43,8 @@ int main()
 
     std::cout << std::endl;
 
-
     std::cout << std::endl << std::endl << "Another unicode block progress bar:" << std::endl;
-    auto p4 = progresso::progresso(0, 200, 40, {
+    auto p4 = progresso::progresso(0, 1024*1024*30, 40, {
         u8"\u2595", // Right 1/8th block
         u8"\u258f", // Left 1/8th block
         u8"\u2588", // Full block
@@ -61,10 +60,13 @@ int main()
         progresso::color::foreground::BlueColor,
         progresso::color::background::BlueColor},
         progresso::ValueDisplayStyle::ValueMaxWithSuffix,
+        1024*1024,
         "MB");
 
-    for(int i = 0; i < p4.getTotal(); i++) {
-        p4.tick(1);
+    // Simulate downloading at 128k / 50ms.
+    for(uint64_t i = 0; i < p4.getTotal();) {
+        i+= 1024*128;
+        p4.setValue(i);
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
         p4.draw();
     }
@@ -73,7 +75,7 @@ int main()
 
 
     std::cout << std::endl << std::endl << "unicode block progress with dimmed intermediates:" << std::endl;
-    progresso::progresso p5 = {0, 100, 40, {
+    progresso::progresso p5 = {0, 50*1024*1024, 40, {
         u8"\u2595", // Right 1/8th block
         u8"\u258f", // Left 1/8th block
         u8"\u2588", // Full block
@@ -89,11 +91,14 @@ int main()
         progresso::color::foreground::BlueColor,
         progresso::color::background::BlueColor},
         progresso::ValueDisplayStyle::ValueBothWithSuffix,
+        1024*1024,
         "MB"};
 
-    for(int i = 0; i < p5.getTotal(); i++) {
-        p5.tick(1);
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    // Simulate 512k / 50ms
+    for(int i = 0; i < p5.getTotal();) {
+        i += 1024*512;
+        p5.setValue(i);
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
         p5.draw();
     }
 

@@ -118,13 +118,14 @@ enum class ValueDisplayStyle {
 
 class progresso {
 private:
-    uint32_t mCurrVal = 0, mMaxVal = 100;
-    uint32_t mWidth = 40;
+    uint64_t mCurrVal = 0, mMaxVal = 100;
+    uint64_t mWidth = 40;
     style mStyle;
 
     ValueDisplayStyle mValueDisplay = ValueDisplayStyle::Percentage;
 
     std::string mValueSuffix;
+    uint64_t mDisplayDivisor = 1;
 
     int fullAmountDone() const;
     float fractionalPortionDone() const;
@@ -133,25 +134,27 @@ private:
 
     std::string createSuffix() const;
     std::string formatValStr(float val) const;
-    
+
     std::string currValStr() const;
     std::string maxValStr() const;
+    
 public:
-    progresso(uint32_t curr, uint32_t max, uint32_t width, 
+    progresso(uint64_t curr, uint64_t max, uint64_t width, 
               style st,
               ValueDisplayStyle percentage = ValueDisplayStyle::Percentage, 
+              uint64_t displayDivisor = 1,
               std::string valueSuffix = "");
     
-    uint32_t getTotal() const { return mMaxVal; }
-    void setTotal(uint32_t max) { mMaxVal = max; }
+    uint64_t getTotal() const { return mMaxVal; }
+    void setTotal(uint64_t max) { mMaxVal = max; }
 
-    void setValue(uint32_t value) { mCurrVal = value; }
-    uint32_t getValue() const { return mCurrVal; }
+    void setValue(uint64_t value);
+    uint64_t getValue() const { return mCurrVal; }
 
     std::string getValueSuffix() const { return mValueSuffix; }
     void setValueSuffix(std::string value) { mValueSuffix = value; }
 
-    void tick(uint32_t amount=1);
+    void tick(uint64_t amount=1);
 
     float getPercentDone() const;
     void erase();

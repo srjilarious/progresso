@@ -11,11 +11,12 @@ namespace progresso
 {
 
 progresso::progresso(
-        uint32_t curr, 
-        uint32_t max, 
-        uint32_t width,
+        uint64_t curr, 
+        uint64_t max, 
+        uint64_t width,
         style st,
-        ValueDisplayStyle display, 
+        ValueDisplayStyle display,
+        uint64_t displayDivisor, 
         std::string valueSuffix
     )
     : mCurrVal(curr), 
@@ -23,18 +24,25 @@ progresso::progresso(
       mWidth(width), 
       mStyle(st),
       mValueDisplay(display),
+      mDisplayDivisor(displayDivisor),
       mValueSuffix(valueSuffix)
 {
 
 }
 
 void 
-progresso::tick(uint32_t amount)
+progresso::tick(uint64_t amount)
 {
-    mCurrVal = std::max(static_cast<uint16_t>(0), 
-            std::min(static_cast<uint16_t>(mCurrVal+amount), static_cast<uint16_t>(mMaxVal)));
+    mCurrVal = std::max(static_cast<uint64_t>(0), 
+            std::min(static_cast<uint64_t>(mCurrVal+amount), static_cast<uint64_t>(mMaxVal)));
 }
 
+void 
+progresso::setValue(uint64_t value)
+{
+    mCurrVal = std::max(static_cast<uint64_t>(0), 
+            std::min(static_cast<uint64_t>(value), static_cast<uint64_t>(mMaxVal)));
+}
 
 float 
 progresso::getPercentDone() const
@@ -48,7 +56,7 @@ void
 progresso::erase()
 {
     // + 2 for the start and end caps.
-    uint32_t length = mWidth + 2;
+    uint64_t length = mWidth + 2;
     auto suffix = createSuffix();
     length += suffix.size();
     std::cout << '\r' << std::string(length, ' ') << '\r' ;
@@ -57,13 +65,15 @@ progresso::erase()
 std::string
 progresso::currValStr() const
 {
-    return formatValStr(mCurrVal);
+    double divisor = mDisplayDivisor != 0 ? static_cast<double>(mDisplayDivisor) : 1.0;
+    return formatValStr(static_cast<double>(mCurrVal)/static_cast<double>(divisor));
 }
 
 std::string
 progresso::maxValStr() const
 {
-    return formatValStr(mMaxVal);
+    double divisor = mDisplayDivisor != 0 ? static_cast<double>(mDisplayDivisor) : 1.0;
+    return formatValStr(static_cast<double>(mMaxVal)/static_cast<double>(divisor));
 }
 
 std::string 
@@ -127,8 +137,8 @@ progresso::emptyAmountLeft() const
 void 
 progresso::draw(bool startOfLine)
 {
-    // auto fillAmount = std::max(static_cast<uint32_t>(0), std::min(
-    //         static_cast<uint32_t>(mWidth*getPercentDone()/100.0f), 
+    // auto fillAmount = std::max(static_cast<uint64_t>(0), std::min(
+    //         static_cast<uint64_t>(mWidth*getPercentDone()/100.0f), 
     //         mWidth));
     //auto remainAmount = mWidth-fillAmount;
     if(startOfLine) std::cout << '\r';
