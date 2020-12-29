@@ -2,12 +2,24 @@ cmake_minimum_required(VERSION 3.10)
 
 set (CMAKE_CXX_STANDARD 17)
 
+# Simple ascii progress bar examples.
 add_executable(
-    basic_test
-    main.cpp
+    ascii_bars
+    ascii_bars.cpp
 )
 
 target_link_libraries(
-    basic_test 
+    ascii_bars
+    progresso
+  )
+
+# Unicode progress bar examples.
+add_executable(
+    unicode_bars
+    unicode_bars.cpp
+)
+
+target_link_libraries(
+    unicode_bars
     progresso
   )
