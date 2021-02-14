@@ -24,7 +24,7 @@ int main()
 
     std::cout << std::endl;
 
-    std::cout << std::endl << std::endl << "Another unicode block progress bar:" << std::endl;
+    std::cout << std::endl << std::endl << "Another unicode 'climbing' block progress bar with max value suffix:" << std::endl;
     
     // Progress bar for 30 MB.
     auto p2 = progresso::progresso(0, 1024*1024*30, 40, {
@@ -78,7 +78,7 @@ int main()
     
     std::cout << std::endl;
 
-     std::cout << std::endl << std::endl << "unicode block progress with dimmed intermediates:" << std::endl;
+     std::cout << std::endl << std::endl << "unicode block progress with rising intermediate blocks:" << std::endl;
 
     // Progress bar for 20 MB.
     progresso::progresso p4 = {0, 20*1024*1024, 40, {
