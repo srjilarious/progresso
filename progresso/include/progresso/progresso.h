@@ -156,6 +156,9 @@ public:
 
     void tick(uint64_t amount=1);
 
+    // Prints sequence to hide/show the terminal cursor.
+    void showCursor(bool show);
+    
     float getPercentDone() const;
     void erase();
     void draw(bool startOfLine=true);

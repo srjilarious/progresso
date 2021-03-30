@@ -7,6 +7,12 @@
 
 #include <progresso/progresso.h>
 
+namespace
+{
+    constexpr const char HideCursor[]       = "\033[?25l";
+    constexpr const char ShowCursor[]       = "\033[?25h";
+}
+
 namespace progresso
 {
 
@@ -132,6 +138,17 @@ int
 progresso::emptyAmountLeft() const
 {
     return std::max(0, static_cast<int>(mWidth) - fullAmountDone());
+}
+
+void 
+progresso::showCursor(bool show)
+{
+    if(show) {
+        std::cout << ShowCursor;
+    }
+    else {
+        std::cout << HideCursor;
+    }
 }
 
 void 

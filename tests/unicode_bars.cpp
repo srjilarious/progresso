@@ -20,6 +20,7 @@ int main()
 {
     std::cout << std::endl << std::endl << "unicode block based progress bar:" << std::endl;
     auto p1 = progresso::progresso(0, 160, 40, progresso::styles::BlockStyleFilledBackground);
+    p1.showCursor(false);
     runProgressBar(p1, 1, 40);
 
     std::cout << std::endl;
@@ -108,5 +109,6 @@ int main()
     std::cout << std::endl;
 
     std::cout << "Finished." << std::endl;
+    p1.showCursor(true);
     return 0;
 }
