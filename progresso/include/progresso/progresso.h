@@ -121,6 +121,7 @@ private:
     uint64_t mCurrVal = 0, mMaxVal = 100;
     uint64_t mWidth = 40;
     style mStyle;
+    bool mCursorHidden = false;
 
     ValueDisplayStyle mValueDisplay = ValueDisplayStyle::Percentage;
 
@@ -145,6 +146,8 @@ public:
               uint64_t displayDivisor = 1,
               std::string valueSuffix = "");
     
+    ~progresso();
+    
     uint64_t getTotal() const { return mMaxVal; }
     void setTotal(uint64_t max) { mMaxVal = max; }
 
@@ -158,7 +161,7 @@ public:
 
     // Prints sequence to hide/show the terminal cursor.
     void showCursor(bool show);
-    
+
     float getPercentDone() const;
     void erase();
     void draw(bool startOfLine=true);

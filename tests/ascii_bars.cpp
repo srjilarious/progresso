@@ -8,6 +8,7 @@
 
 void runProgressBar(progresso::progresso bar, int amountTick, int delayTick)
 {
+    bar.showCursor(false);
     for(int i = 0; i < bar.getTotal();) {
         i+= amountTick;
         bar.setValue(i);

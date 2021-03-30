@@ -36,6 +36,12 @@ progresso::progresso(
 
 }
 
+progresso::~progresso()
+{
+    if(mCursorHidden)
+        showCursor(true);
+}
+
 void 
 progresso::tick(uint64_t amount)
 {
@@ -145,9 +151,11 @@ progresso::showCursor(bool show)
 {
     if(show) {
         std::cout << ShowCursor;
+        mCursorHidden = false;
     }
     else {
         std::cout << HideCursor;
+        mCursorHidden = true;
     }
 }
 
